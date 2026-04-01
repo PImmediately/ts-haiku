@@ -3,14 +3,15 @@
 		"target": "ES2021",
 		"lib": [
 			"ES2021",
-			"ES6",
-			"DOM"
+			"ES6"
 		],
 		"module": "NodeNext",
 		"moduleResolution": "NodeNext",
 		"outDir": "./dist/",
-		"allowSyntheticDefaultImports": true,
+		"declaration": true,
+		"emitDeclarationOnly": false,
 		"esModuleInterop": true,
+		"allowSyntheticDefaultImports": true,
 		"forceConsistentCasingInFileNames": true,
 		"strict": true,
 		"noImplicitAny": true,
@@ -27,6 +28,8 @@
 		"skipLibCheck": true
 	},
 	"exclude": [
-		"node_modules"
+		"node_modules",
+		"eslint.config.mts",
+		"Sources/test.ts"
 	]
 }
