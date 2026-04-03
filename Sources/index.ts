@@ -1,4 +1,8 @@
-import * as Kagome from "./Kagome";
+import * as Kagome from "kagome-wasm";
+
+export interface KagomeOptions {
+	sysdict: "ipa" | "uni";
+}
 
 const reWord = /^[ァ-ヾ]+$/;
 const reIgnoreText = /[[\]「」『』、。？！]/g;
@@ -133,12 +137,19 @@ function isEnd(token: Kagome.Token): boolean {
 
 export interface MatchOptions {
 	rule: number[];
-	kagome?: Partial<Kagome.Options>;
+	kagome?: Partial<KagomeOptions>;
 }
 
 const defaultMatchOptions: MatchOptions = {
 	rule: [5, 7, 5]
 };
+
+/**
+ * Initializes the library.
+ */
+export async function init(): Promise<void> {
+	return await Kagome.init();
+}
 
 /**
  * Determines whether the given text matches a specified mora (syllable) pattern.  
@@ -149,14 +160,14 @@ const defaultMatchOptions: MatchOptions = {
  * @returns Returns true if the text matches the specified pattern, otherwise false.
  * 
  * @example
- * await match("古池や蛙飛び込む水の音", { rule: [5, 7, 5] }) // => true
+ * match("古池や蛙飛び込む水の音", { rule: [5, 7, 5] }) // => true
  */
-export async function match(text: string, options: Partial<MatchOptions> = {}): Promise<boolean> {
+export function match(text: string, options: Partial<MatchOptions> = {}): boolean {
 	const _options = { ...defaultMatchOptions, ...options };
 	if (_options.rule.length === 0) return false;
 
 	text = text.replace(reIgnoreText, " ");
-	let tokens: Kagome.Token[] = await Kagome.tokenize(text, _options.kagome);
+	let tokens: Kagome.Token[] = Kagome.tokenize(text, _options.kagome?.sysdict);
 
 	tokens = tokens.filter((t) => !isIgnore(t));
 
@@ -208,7 +219,7 @@ export async function match(text: string, options: Partial<MatchOptions> = {}): 
 
 export interface FindOptions {
 	rule: number[];
-	kagome?: Partial<Kagome.Options>;
+	kagome?: Partial<KagomeOptions>;
 }
 
 const defaultFindOptions: FindOptions = {
@@ -224,15 +235,15 @@ const defaultFindOptions: FindOptions = {
  * @returns Returns an array of matched substrings. If no match is found, an empty array is returned.
  * 
  * @example
- * await find("古池や蛙飛び込む水の音", { rule: [5, 7, 5] }) // => ["古池や 蛙飛び込む 水の音"]
+ * find("古池や蛙飛び込む水の音", { rule: [5, 7, 5] }) // => ["古池や 蛙飛び込む 水の音"]
  */
-export async function find(text: string, options: Partial<FindOptions> = {}): Promise<string[]> {
+export function find(text: string, options: Partial<FindOptions> = {}): string[] {
 	const _options = { ...defaultFindOptions, ...options };
 	if (_options.rule.length === 0) return [];
 
 	text = text.replace(reIgnoreText, " ");
 
-	let tokens: Kagome.Token[] = await Kagome.tokenize(text, _options.kagome);
+	let tokens: Kagome.Token[] = Kagome.tokenize(text, _options.kagome?.sysdict);
 	tokens = tokens.filter((t) => !isIgnore(t));
 
 

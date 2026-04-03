@@ -22,5 +22,8 @@
 	},
 	"files": [
 		"dist"
-	]
+	],
+	"dependencies": {
+		"kagome-wasm": "^0.0.1"
+	}
 }
