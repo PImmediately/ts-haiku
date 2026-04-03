@@ -327,10 +327,7 @@ export function find(text: string, options: Partial<FindOptions> = {}): string[]
 		) {
 			pos++;
 
-			if (
-				(pos === r.length) ||
-				(pos === r.length + 1)
-			) {
+			if (pos === r.length) {
 				if (isEnd(tok)) {
 					ret.push(sentence);
 					start = i + 1;
