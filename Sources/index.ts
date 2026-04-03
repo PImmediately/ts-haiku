@@ -148,7 +148,9 @@ const defaultMatchOptions: MatchOptions = {
  * Initializes the library.
  */
 export async function init(): Promise<void> {
-	return await Kagome.init();
+	await Kagome.init();
+	Kagome.tokenize("dummy", "ipa");
+	Kagome.tokenize("dummy", "uni");
 }
 
 /**
