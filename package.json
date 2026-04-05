@@ -24,6 +24,6 @@
 		"dist"
 	],
 	"dependencies": {
-		"kagome-wasm": "^0.0.2"
+		"kagome-wasm": "^0.0.3"
 	}
 }
